@@ -1,20 +1,51 @@
 import React, { Component } from 'react';
 import cookie from 'react-cookies';
 import Helperdel from './Helperdel';
+import Dice from './Dice';
+// import {BootstrapTable, 
+//     TableHeaderColumn} from 'react-bootstrap-table';
 import Helper from './Helper';
 import { Link } from 'react-router-dom';
+import {
+    ToastContainer,
+    toast
+} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class Salesgroup extends Component {
+    notify = (msg) => {
+        // toast(msg);
+
+        toast.info(msg, {
+            position: toast.POSITION.BOTTOM_CENTER
+        });
+    }
+    notify1 = (msg) => {
+
+        toast.success(msg, {
+            position: toast.POSITION.TOP_RIGHT
+        });
+    }
+    notify2 = (msg) => {
+
+        toast(msg, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: 'foo-bar'
+        });
+    }
+
     constructor(props) {
         super(props);
         this.state = {
-            url: "http://192.168.1.16:3001/v1/",
+            url: "http://192.168.43.14:3001/v1/",
             posts: [],
             name: "",
             SalesgroupName: "",
             editName: '',
-            postId: 0
+            postId: 0,
+            show1: "",
+            show2: "",
+            loader: true
         };
-
         if (cookie.load('access_token') === undefined) {
             this.props.history.push('/login');
         }
@@ -27,9 +58,19 @@ class Salesgroup extends Component {
             return post.id == p.id
         });
         this.state.posts[i].is_active = !this.state.posts[i].is_active;
+        if (post.is_active === true) {
+            this.notify1(post.name + " is now Active");
+
+        }
+        else {
+            this.notify2(post.name + " is now Inactive");
+        }
+
         this.forceUpdate();
+
     }
     checkboxChange = (e, post) => {
+        this.toggleLoader();
         let body = JSON.stringify({
             id: post.id,
             is_active: !post.is_active
@@ -37,16 +78,29 @@ class Salesgroup extends Component {
         let res = Helper('updateSalesgroupStatus', 'POST', body);
         res.then((res) => {
             this.updatePostView(post);
+            this.toggleLoader();
+
         });
     }
-    clearDefault =()=> 
-    {
-        document.getElementById("khalikrna").value="";       
-        
-    
+    clearDefault = () => {
+        document.getElementById("khalikrna").value = "";
+
+
     };
 
     fetchPosts = () => {
+
+        let res = Helperdel("salesgroups", "GET");
+        res.then((res) => {
+            this.setState({
+                posts: res,
+            });
+
+        });
+        this.notify("Salesgroup Fetched Successfully");
+
+    }
+    fetchPostsAgain = () => {
 
         let res = Helperdel("salesgroups", "GET");
         res.then((res) => {
@@ -61,23 +115,30 @@ class Salesgroup extends Component {
     selectedRowToInput = (e, post) => {
         this.setState({
             editName: post.name,
-            postId : post.id
+            postId: post.id
         });
     }
 
-    updateRow = ()=>{
+    updateRow = () => {
+        this.toggleLoader();
         let body = JSON.stringify({
             name: this.state.editName,
             id: this.state.postId
         });
         let res = Helper("updateSalesgroup/", 'POST', body);
         res.then((res) => {
-            this.fetchPosts();
+            this.fetchPostsAgain();
+            this.toggleLoader();
+
         });
+        this.notify1("Editing Done Successfully");
+
     }
 
 
     submit = () => {
+        this.toggleLoader();
+
         let body = JSON.stringify({
             name: this.state.editName
 
@@ -85,13 +146,19 @@ class Salesgroup extends Component {
 
         let res = Helper("salesgroups", 'POST', body);
         res.then((res) => {
-            this.fetchPosts();
+            this.fetchPostsAgain();
+            this.toggleLoader();
         });
         this.clearDefault();
+        this.notify1("Post Added");
+
     }
+
     render() {
         return (
             <div>
+                <ToastContainer autoClose={4000} />
+                <Dice loader={this.state.loader} />
                 <div className="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
                     <div className="nano">
                         <div className="nano-content">
@@ -159,10 +226,6 @@ class Salesgroup extends Component {
                 </div>
 
 
-
-
-
-
                 <div className="header">
                     <div className="pull-left">
                         <div className="logo">
@@ -170,7 +233,7 @@ class Salesgroup extends Component {
                                 <span>SWEETY HUT</span>
                             </Link>
                         </div>
-                        <div className="hamburger sidebar-toggle">
+                        <div className="hamburger sidebar-toggle ">
                             <span className="line"></span>
                             <span className="line"></span>
                             <span className="line"></span>
@@ -188,7 +251,7 @@ class Salesgroup extends Component {
                                     <div className="dropdown-content-body">
                                         <ul>
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -199,7 +262,7 @@ class Salesgroup extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -210,7 +273,7 @@ class Salesgroup extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -221,7 +284,7 @@ class Salesgroup extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -231,7 +294,7 @@ class Salesgroup extends Component {
                                                 </a>
                                             </li>
                                             <li className="text-center">
-                                                <a href="#" className="more-link">See All</a>
+                                                <a href="" className="more-link">See All</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -249,7 +312,7 @@ class Salesgroup extends Component {
                                     <div className="dropdown-content-body">
                                         <ul>
                                             <li className="notification-unread">
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -260,7 +323,7 @@ class Salesgroup extends Component {
                                             </li>
 
                                             <li className="notification-unread">
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -271,7 +334,7 @@ class Salesgroup extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -282,7 +345,7 @@ class Salesgroup extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -292,7 +355,7 @@ class Salesgroup extends Component {
                                                 </a>
                                             </li>
                                             <li className="text-center">
-                                                <a href="#" className="more-link">See All</a>
+                                                <a href="" className="more-link">See All</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -361,14 +424,14 @@ class Salesgroup extends Component {
                                     <div className="col-sm-12 text-center same" ><b>SALES GROUP</b>
                                         <span><button type="button" className="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">ADD GROUP</button></span>
                                     </div>
-                                    <div className="modal" id="myModal">
+                                    <div className="modal fade" id="myModal">
                                         <div className="modal-dialog">
                                             <div className="modal-content">
 
 
                                                 <div className="modal-header">
                                                     <h4 className="modal-title">Add Salesgroup</h4>
-                                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                                    {/* <button type="button" className="close" data-dismiss="modal">&times;</button> */}
                                                 </div>
 
 
@@ -390,7 +453,7 @@ class Salesgroup extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <div className="modal" id="editModal">
+                                            <div className="modal fade" id="editModal">
                                                 <div className="modal-dialog">
                                                     <div className="modal-content">
 
@@ -402,7 +465,7 @@ class Salesgroup extends Component {
 
                                                         <div className="modal-body">
                                                             <label for="Salesgroup-Name" className="namesales">Salesgroup Name</label>
-                                                            <input type="text" className="form-control mycheckbox"  placeholder="Name" value={this.state.editName} onChange={(e) => { this.name(e) }} required />
+                                                            <input type="text" className="form-control mycheckbox" placeholder="Name" value={this.state.editName} onChange={(e) => { this.name(e) }} required />
                                                         </div>
 
 
@@ -418,6 +481,13 @@ class Salesgroup extends Component {
                                         </div>
                                         <div className="col-sm-12">
 
+                                            {/* <BootstrapTable
+                                                pagination={true}
+                                                >
+                                                <TableHeaderColumn dataField='id' isKey>Salesgroup Name</TableHeaderColumn>
+                                                <TableHeaderColumn dataField='name'>Active/Inactive</TableHeaderColumn>
+                                                <TableHeaderColumn dataField='price'>Edit</TableHeaderColumn>
+                                            </BootstrapTable> */}
                                             <table className="table" id="table">
                                                 <thead>
                                                     <tr>
@@ -425,7 +495,7 @@ class Salesgroup extends Component {
                                                         <th className="text-center" scope="col">Active/Inactive</th>
                                                         <th scope="col">Edit Salesgroup</th>
 
-                                                    </tr>
+                                                    </tr>   
                                                 </thead>
                                                 <tbody>
                                                     {
@@ -433,10 +503,10 @@ class Salesgroup extends Component {
                                                             return (
                                                                 <tr key={i}>
                                                                     <td  >{post.name}</td>
-                                                                    <td className="text-center"> <input type="checkbox" checked={post.is_active} onChange={(e) => { this.checkboxChange(e, post) }} /> </td>
+                                                                    <td className="text-center"> <input type="checkbox"  checked={post.is_active} onChange={(e) => { this.checkboxChange(e, post) }}/> </td>
                                                                     <td className="text-center"><button className="btn btn-info" data-toggle="modal" data-target="#editModal" onClick={(e) => { this.selectedRowToInput(e, post) }}><i class="fa fa-edit"></i> Edit </button></td>
                                                                 </tr>
-
+                                                        
                                                             );
                                                         })
                                                     }
@@ -456,9 +526,17 @@ class Salesgroup extends Component {
             </div>
         );
     }
+    toggleLoader() {
+        this.setState({
+            loader: !this.state.loader
+        });
+    }
     componentDidMount() {
         this.fetchPosts();
+        this.toggleLoader();
+
     }
+
 }
 
 export default Salesgroup;

@@ -13,7 +13,8 @@ class Login extends Component {
             password: '',
             loader: true
         };
-        if(cookie.load('access_token')){
+        if(cookie.load('access_token'))
+        {
             this.props.history.push('/dashboard');
         }
     }
@@ -86,7 +87,7 @@ class Login extends Component {
                                                     if (e.keyCode === 13) {
                                                         this.login();
                                                     }
-                                                }} onChange={(e) => this.email(e)} />
+                                                }} onChange={(e) => this.email(e)} required/>
                                             </div>
                                             <div className="form-group">
                                                 <label>Password</label>
@@ -94,7 +95,7 @@ class Login extends Component {
                                                     if (e.keyCode === 13) {
                                                         this.login();
                                                     }
-                                                }} onChange={(e) => this.password(e)} />
+                                                }} onChange={(e) => this.password(e)} required />
                                             </div>
                                             <div className="checkbox">
                                                 <label>
@@ -109,7 +110,7 @@ class Login extends Component {
                                                 <span className="login2">Sign in</span></button>
 
                                             <div className="register-link m-t-15 text-center">
-                                                <p>Don't have account ? <Link to="./Signup"> Sign Up Here</Link>
+                                                <p>Dont have account ? <Link to="./Signup"> Sign Up Here</Link>
                                                 </p>
                                             </div>
                                         </form>

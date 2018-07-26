@@ -2,7 +2,33 @@ import React, { Component } from 'react';
 import cookie from 'react-cookies';
 import Helper from './Helper';
 import { Link } from 'react-router-dom';
+import {
+    ToastContainer,
+    toast
+} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader1 from './Loader1';
 class Preparation extends Component {
+    notify = (msg) => {
+        // toast(msg);
+
+          toast.info(msg, {
+            position: toast.POSITION.BOTTOM_CENTER
+          });
+        }
+        notify1 = (msg) => {
+
+              toast.success(msg, {
+                position: toast.POSITION.TOP_RIGHT
+              });
+            }
+        notify2 = (msg) => {
+
+                toast(msg, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'foo-bar'
+                  });
+              }
     constructor(props) {
         super(props);
         this.state = {
@@ -12,12 +38,13 @@ class Preparation extends Component {
             choice: "",
             serving_size: "",
             price: "",
-            krochange1:"",
-            krochange2:"",
-            krochange3:"",
-            krochange4:"",
-            krochange5:"",
-
+            editPreparation:"",
+            editDescription:"",
+            editChoice:"",
+            editPrice:"",
+            editServingSize:"",
+            postId: 0,
+            loader: true
 
         };
 
@@ -26,19 +53,19 @@ class Preparation extends Component {
         }
     }
     preparation = (e) => {
-        this.setState({ krochange1: e.target.value });
+        this.setState({ editPreparation: e.target.value });
     }
     description = (e) => {
-        this.setState({ krochange2: e.target.value });
+        this.setState({ editDescription: e.target.value });
     }
     choice = (e) => {
-        this.setState({ krochange3: e.target.value });
+        this.setState({ editChoice: e.target.value });
     }
     serving_size = (e) => {
-        this.setState({ krochange4: e.target.value });
+        this.setState({ editServingSize: e.target.value });
     }
     price = (e) => {
-        this.setState({ krochange5: e.target.value });
+        this.setState({ editPrice: e.target.value });
     }
 
     fetchPosts = () => {
@@ -50,55 +77,72 @@ class Preparation extends Component {
             });
 
         });
+        this.notify(" Posts Fetched Successfully");
+
+    }
+    fetchPostsAgain = () => {
+
+        let res = Helper("preparations", "GET");
+        res.then((res) => {
+            this.setState({
+                posts: res,
+            });
+
+        });
+
     }
 
     selectedRowToInput = (e, post) => {
         this.setState({
-            krochange1: post.preparation,
-            krochange2: post.description,
-            krochange3: post.choice,
-            krochange4: post.serving_size,
-            krochange5: post.price,
-            
+            editPreparation: post.preparation,
+            editDescription: post.description,
+            editChoice: post.choice,
+            editServingSize: post.serving_size,
+            editPrice: post.price,
+            postId: post.id
         });
-        // document.getElementById("krochange1").value = post.preparation;
-        // document.getElementById("krochange2").value = post.description;
-        // document.getElementById("krochange3").value = post.choice;
-        // document.getElementById("krochange4").value = post.serving_size;
-        // document.getElementById("krochange5").value = post.price;
+    }
 
-        var edit = document.getElementById("editbtn");
-        edit.addEventListener('click', () => {
-            console.log(post.id);
+    updateRow = ()=>{
+      this.toggleLoader();
             let body = JSON.stringify({
-                        preparation: this.state.krochange1,
-                        description: this.state.krochange2,
-                        choice: this.state.krochange3,
-                        serving_size: this.state.krochange4,
-                        price: this.state.krochange5,
-                        id: post.id
+                preparation: this.state.editPreparation,
+                description: this.state.editDescription,
+                choice: this.state.editChoice,
+                serving_size: this.state.editServingSize,
+                price: this.state.editPrice,
+                id: this.state.postId
             });
-            let res = Helper("updatePreparation", 'POST', body);
+            let res = Helper("updatePreparation/", 'POST', body);
             res.then((res) => {
-                this.fetchPosts();
-            }); 
-        })
-  }
+                this.fetchPostsAgain();
+                this.toggleLoader();
+
+            });
+        this.notify1(" Preparation Edited");
+
+        }
+
 
       submit = () => {
+        this.toggleLoader();
         let body = JSON.stringify({
-            preparation: this.state.krochange1,
-            description: this.state.krochange2,
-            choice: this.state.krochange3,
-            serving_size: this.state.krochange4,
-            price: this.state.krochange5
+            preparation: this.state.editPreparation,
+            description: this.state.editDescription,
+            choice: this.state.editChoice,
+            serving_size: this.state.editServingSize,
+            price: this.state.editPrice
 
         });
 
-        let res = Helper(this.state.url+"preparations", 'POST', body);
+        let res = Helper("preparations", 'POST', body);
         res.then((res) => {
-            this.fetchPosts();
+            this.fetchPostsAgain();
+            this.toggleLoader();
+
         });
+        this.notify1(" Preparation Added");
+
     }
     render() {
 
@@ -129,6 +173,8 @@ class Preparation extends Component {
             }
         return (
             <div>
+             <ToastContainer autoClose={4000}/>
+             <Loader1 loader={this.state.loader}/>
 
 <div className="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
         <div className="nano">
@@ -139,7 +185,7 @@ class Preparation extends Component {
                         <Link to="./Dashboard">
                             <i className="ti-home"></i> Dashboard </Link>
                     </li>
-                   
+
 
                     <li className="label">My Account</li>
                     <li>
@@ -150,14 +196,14 @@ class Preparation extends Component {
                         <Link to="./Profile">
                             <i className="ti-user"></i> Profile</Link>
                     </li>
-                    
+
 
                     <li className="label">Others</li>
-                    <li>  
+                    <li>
                         <Link to="./Items">
                             <i className="ti-view-list-alt"></i> Items
                         </Link>
-                        
+
                     </li>
                     <li>
                         <Link to="./Menu">
@@ -173,19 +219,19 @@ class Preparation extends Component {
                         <Link to="./Preparation">
                             <i className="ti-pencil-alt"></i> Preparation</Link>
                     </li>
-                  
+
                     <li>
                         <Link to="./Location">
                             <i className="ti-location-pin"></i> Location</Link>
                     </li>
-                    
-                    
+
+
 
                     <li>
                         <Link to="./Salesgroup">
                             <i className="ti-files"></i> Sales Group</Link>
                     </li>
-                
+
                     <li className="label">Details</li>
                     <li>
                         <Link to="./Reports">
@@ -226,7 +272,7 @@ class Preparation extends Component {
                                     <div className="dropdown-content-body">
                                         <ul>
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -237,7 +283,7 @@ class Preparation extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -248,7 +294,7 @@ class Preparation extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -259,7 +305,7 @@ class Preparation extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -269,7 +315,7 @@ class Preparation extends Component {
                                                 </a>
                                             </li>
                                             <li className="text-center">
-                                                <a href="#" className="more-link">See All</a>
+                                                <a href="" className="more-link">See All</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -287,7 +333,7 @@ class Preparation extends Component {
                                     <div className="dropdown-content-body">
                                         <ul>
                                             <li className="notification-unread">
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -298,7 +344,7 @@ class Preparation extends Component {
                                             </li>
 
                                             <li className="notification-unread">
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -309,7 +355,7 @@ class Preparation extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -320,7 +366,7 @@ class Preparation extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -330,7 +376,7 @@ class Preparation extends Component {
                                                 </a>
                                             </li>
                                             <li className="text-center">
-                                                <a href="#" className="more-link">See All</a>
+                                                <a href="" className="more-link">See All</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -412,34 +458,34 @@ class Preparation extends Component {
 
                                                 <div className="modal-body">
                                                     <div className="row">
-                                                        <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                        <div className=" col-xl-12 col-md-6">
                                                             <label for="Preparation-Name" style={style}>Preparation</label>
-                                                            <input type="text" className="form-control" style={mystyle} placeholder=" Enter preparation.." onChange={(e) => this.preparation(e)} required />
+                                                            <input type="text" className="form-control" style={mystyle} required placeholder=" Enter preparation.." onChange={(e) => this.preparation(e)} required />
                                                         </div>
-                                                        <div className=" col-lg-6 col-md-6 col-sm-6  col-xs-6 " >
+                                                        <div className=" col-xl-12 col-md-6" >
 
                                                             <label for="Description" style={style}>Description</label>
-                                                            <input type="text" className="form-control" style={mystyle} placeholder="Enter Description.." onChange={(e) => this.description(e)} required />
+                                                            <input type="text" className="form-control" style={mystyle} required placeholder="Enter Description.." onChange={(e) => this.description(e)} required />
 
                                                         </div>
                                                     </div>
                                                     <div className="row">
-                                                        <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                        <div className=" col-xl-12 col-md-6">
 
                                                             <label for="base-serving-size" style={style}>Choice</label>
-                                                            <input type="number" className="form-control" style={mystyle} placeholder=" Enter your choice.. " onKeyUp={(e) => this.choice(e)} required />
+                                                            <input type="number" className="form-control" style={mystyle} required placeholder=" Enter your choice.. " onKeyUp={(e) => this.choice(e)} required />
                                                         </div>
-                                                        <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                        <div className=" col-xl-12 col-md-6">
 
                                                             <label for="salesgroup-id" style={style}>Serving Size</label>
-                                                            <input type="number" className="form-control" style={mystyle} placeholder="Enter Serving size.." onKeyUp={(e) => this.serving_size(e)} required />
+                                                            <input type="number" className="form-control" style={mystyle} required placeholder="Enter Serving size.." onKeyUp={(e) => this.serving_size(e)} required />
                                                         </div>
                                                     </div>
                                                     <div className="row">
-                                                        <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                        <div className=" col-xl-12 col-md-6">
 
                                                             <label for="salesgroup-id" style={style}> Price</label>
-                                                            <input type="text" className="form-control" style={mystyle} placeholder="Enter Price.." onKeyUp={(e) => this.price(e)} required />
+                                                            <input type="number" className="form-control" style={mystyle} required placeholder="Enter Price.." onKeyUp={(e) => this.price(e)} required />
 
                                                         </div>
 
@@ -460,7 +506,7 @@ class Preparation extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <div className="modal" id="editModal">
+                                            <div className="modal fade" id="editModal">
                                                 <div className="modal-dialog">
                                                     <div className="modal-content">
 
@@ -473,34 +519,34 @@ class Preparation extends Component {
 
                                                         <div className="modal-body">
                                                             <div className="row">
-                                                                <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                                <div className=" col-xl-12 col-md-6">
                                                                     <label for="Preparation-Name" style={style}>Preparation</label>
-                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.krochange1} placeholder=" Enter preparation.." onChange={(e) => this.preparation(e)} required />
+                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.editPreparation} required placeholder=" Enter preparation.." onChange={(e) => this.preparation(e)} required />
                                                                 </div>
-                                                                <div className=" col-lg-6 col-md-6 col-sm-6  col-xs-6 " >
+                                                                <div className=" col-xl-12 col-md-6" >
 
                                                                     <label for="Description" style={style}>Description</label>
-                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.krochange2} placeholder="Enter Description.." onChange={(e) => this.description(e)} required />
+                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.editDescription} required placeholder="Enter Description.." onChange={(e) => this.description(e)} required />
 
                                                                 </div>
                                                             </div>
                                                             <div className="row">
-                                                                <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                                <div className=" col-xl-12 col-md-6">
 
                                                                     <label for="base-serving-size" style={style}>Choice</label>
-                                                                    <input type="number" className="form-control" style={mystyle} value={this.state.krochange3} placeholder=" Enter your choice.. " onChange={(e) => this.choice(e)} required />
+                                                                    <input type="number" className="form-control" style={mystyle} value={this.state.editChoice} required placeholder=" Enter your choice.. " onChange={(e) => this.choice(e)} required />
                                                                 </div>
-                                                                <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                                <div className=" col-xl-12 col-md-6">
 
                                                                     <label for="salesgroup-id" style={style}>Serving Size</label>
-                                                                    <input type="number" className="form-control" style={mystyle} value={this.state.krochange4} placeholder="Enter Serving size.." onChange={(e) => this.serving_size(e)} required />
+                                                                    <input type="number" className="form-control" style={mystyle} value={this.state.editServingSize} required placeholder="Enter Serving size.." onChange={(e) => this.serving_size(e)} required />
                                                                 </div>
                                                             </div>
                                                             <div className="row">
-                                                                <div className=" col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                                                                <div className=" col-xl-12 col-md-6">
 
                                                                     <label for="salesgroup-id" style={style}> Price</label>
-                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.krochange5} placeholder="Enter Price.." onChange={(e) => this.price(e)} required />
+                                                                    <input type="number" className="form-control" style={mystyle} value={this.state.editPrice} required placeholder="Enter Price.." onChange={(e) => this.price(e)} required />
 
                                                                 </div>
 
@@ -511,7 +557,7 @@ class Preparation extends Component {
 
                                                         <div className="modal-footer">
 
-                                                            <button type="button" className="btn btn-info pull-left" id="editbtn" data-dismiss="modal">Submit</button>
+                                                            <button type="button" className="btn btn-info pull-left" id="editbtn" data-dismiss="modal" onClick={this.updateRow}>Submit</button>
                                                             <button type="button" className="btn btn-danger pull-right" data-dismiss="modal">Close</button>
                                                         </div>
 
@@ -564,8 +610,14 @@ class Preparation extends Component {
             </div>
         );
     }
+    toggleLoader(){
+        this.setState({
+            loader: !this.state.loader
+        });
+    }
     componentDidMount() {
         this.fetchPosts();
+        this.toggleLoader();
     }
 }
 

@@ -102,7 +102,7 @@ class Reports extends Component {
                                         <div className="dropdown-content-body">
                                             <ul>
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -113,7 +113,7 @@ class Reports extends Component {
                                                 </li>
 
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -124,7 +124,7 @@ class Reports extends Component {
                                                 </li>
 
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -135,7 +135,7 @@ class Reports extends Component {
                                                 </li>
 
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -145,7 +145,7 @@ class Reports extends Component {
                                                     </a>
                                                 </li>
                                                 <li className="text-center">
-                                                    <a href="#" className="more-link">See All</a>
+                                                    <a href="" className="more-link">See All</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -163,7 +163,7 @@ class Reports extends Component {
                                         <div className="dropdown-content-body">
                                             <ul>
                                                 <li className="notification-unread">
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -174,7 +174,7 @@ class Reports extends Component {
                                                 </li>
 
                                                 <li className="notification-unread">
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -185,7 +185,7 @@ class Reports extends Component {
                                                 </li>
 
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -196,7 +196,7 @@ class Reports extends Component {
                                                 </li>
 
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="">
                                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                         <div className="notification-content">
                                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -206,7 +206,7 @@ class Reports extends Component {
                                                     </a>
                                                 </li>
                                                 <li className="text-center">
-                                                    <a href="#" className="more-link">See All</a>
+                                                    <a href="" className="more-link">See All</a>
                                                 </li>
                                             </ul>
                                         </div>

@@ -100,7 +100,7 @@ class Profile extends Component {
                         <div className="dropdown-content-body">
                             <ul>
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -111,7 +111,7 @@ class Profile extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -122,7 +122,7 @@ class Profile extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -133,7 +133,7 @@ class Profile extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -143,7 +143,7 @@ class Profile extends Component {
                                     </a>
                                 </li>
                                 <li className="text-center">
-                                    <a href="#" className="more-link">See All</a>
+                                    <a href="" className="more-link">See All</a>
                                 </li>
                             </ul>
                         </div>
@@ -161,7 +161,7 @@ class Profile extends Component {
                         <div className="dropdown-content-body">
                             <ul>
                                 <li className="notification-unread">
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -172,7 +172,7 @@ class Profile extends Component {
                                 </li>
 
                                 <li className="notification-unread">
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -183,7 +183,7 @@ class Profile extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -194,7 +194,7 @@ class Profile extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -204,7 +204,7 @@ class Profile extends Component {
                                     </a>
                                 </li>
                                 <li className="text-center">
-                                    <a href="#" className="more-link">See All</a>
+                                    <a href="" className="more-link">See All</a>
                                 </li>
                             </ul>
                         </div>
@@ -260,8 +260,8 @@ class Profile extends Component {
                         <div className="page-header">
                             <div className="page-title">
                                 <ol className="breadcrumb text-right">
-                                    <li><a href="#">My Account</a></li>
-                                    <li><a href="#">Profile</a></li>
+                                    <li><a href="">My Account</a></li>
+                                    <li><a href="">Profile</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -294,11 +294,11 @@ class Profile extends Component {
 												<div className="user-skill">
 													<h4>Skill</h4>
 													<ul>
-														<li><a href="#">Branding</a></li>
-														<li><a href="#">UI/UX</a></li>
-														<li><a href="#">Web Design</a></li>
-														<li><a href="#">Wordpress</a></li>
-														<li><a href="#">Magento</a></li>
+														<li><a href="">Branding</a></li>
+														<li><a href="">UI/UX</a></li>
+														<li><a href="">Web Design</a></li>
+														<li><a href="">Wordpress</a></li>
+														<li><a href="">Magento</a></li>
 													</ul>
 												</div>
 											</div>

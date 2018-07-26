@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import cookie from 'react-cookies';
+// import cookie from 'react-cookies';
 import {Link} from 'react-router-dom';
 
 class Dashboard extends Component {

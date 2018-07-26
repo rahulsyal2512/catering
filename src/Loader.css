@@ -12,8 +12,8 @@
     width: 100px;
     height: 100px;
     background-color: #000;
-    top:38%;
-    left:45%;
+    top:50%;
+    left:5%;
     -webkit-animation: sk-rotateplane 0.6s infinite ease-in-out;
     animation: sk-rotateplane 0.6s infinite ease-in-out;
     z-index: 10;

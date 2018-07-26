@@ -4,18 +4,47 @@ import Helper from './Helper';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
 import Header from './header';
+import {
+    ToastContainer,
+    toast
+} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader1 from './Loader1';
 class Menu extends Component {
+    notify = (msg) => {
+        // toast(msg);
+
+          toast.info(msg, {
+            position: toast.POSITION.BOTTOM_CENTER
+          });
+        }
+        notify1 = (msg) => {
+
+              toast.success(msg, {
+                position: toast.POSITION.TOP_RIGHT
+              });
+            }
     constructor(props) {
         super(props);
         this.state = {
-            url: "http://192.168.1.16:3001/v1/",
+            url: "http://192.168.43.14:3001/v1/",
             posts: [],
             loc: [],
             menu_name: "",
             description: "",
             location_id: "",
-            item_id: "",
-            image: null
+            data: "",
+            image: null,
+            editMenuName: "",
+            editDescription: "",
+            editLocationId: "",
+            editItemId: "",
+            editImage: null,
+            postId: 0,
+            postId1: 0,
+            image_updated:false,
+            loader: true
+
         };
 
         if (cookie.load('access_token') === undefined) {
@@ -23,16 +52,16 @@ class Menu extends Component {
         }
     }
     menu_name = (e) => {
-        this.setState({ menu_name: e.target.value });
+        this.setState({ editMenuName: e.target.value });
     }
     description = (e) => {
-        this.setState({ description: e.target.value });
+        this.setState({ editDescription: e.target.value });
     }
     // location_id = (e) => {
     //     this.setState({ location_id: e.target.value });
     // }
     item_id = (e) => {
-        this.setState({ item_id: e.target.value });
+        this.setState({ editItemId: e.target.value });
     }
 
     fileSelect = (e) => {
@@ -47,35 +76,61 @@ class Menu extends Component {
         this.setState
             (
             {
-                image: input.files[0]
+                editImage: input.files[0]
             }
             );
     }
-    submit = () => {
-        let images = new FormData();
-        images.append('menu_name', this.state.menu_name);
-        images.append('description', this.state.description);
-        images.append('location_id', this.state.location_id);
-        images.append('item_id', this.state.item_id);
-        images.append('image',this.state.image);        
-      
-        let body = images
 
-        let res = Header(this.state.url + "menus", 'POST', body);
+    editFileSelect = (e) => {
+        var input = e.target;
+        var reader = new FileReader();
+        reader.onload = function () {
+            var storeImg = reader.result;
+            var img2 = document.getElementById('img2');
+            img2.src = storeImg;
+        };
+        reader.readAsDataURL(input.files[0]);
+        this.setState
+            (
+            {
+                editImage: input.files[0],
+                image_updated: true
+            }
+            );
+
+    }
+
+    submit = () => {
+      this.toggleLoader();
+        let data = new FormData();
+        data.append('menu_name', this.state.editMenuName);
+        data.append('description', this.state.editDescrition);
+        data.append('location_id', this.state.editLocationId);
+        data.append('item_id', this.state.editItemId);
+        data.append('image', this.state.editImage);
+
+        let body = data
+
+        let res = Header(this.state.url+"menus", 'POST', body);
         res.then((res) => {
-            this.fetchPosts();
+            this.toggleLoader();
+
+            this.fetchPostsAgain();
+
         });
+    this.notify1("Menu Added Successfully ");
+
     }
 
 
     dropdown = (e) => {
         let selectedValue = e.target.options[e.target.selectedIndex].value;
         this.setState({
-            location_id: selectedValue,
+            editLocationId: selectedValue,
         });
     }
     fetchLocation = () => {
-        let res = Helper(this.state.url + "locations", "GET");
+        let res = Helper("locations", "GET");
         res.then((res) => {
             this.setState({
                 loc: res,
@@ -84,7 +139,17 @@ class Menu extends Component {
     }
 
     fetchPosts = () => {
-        let res = Helper(this.state.url + "menus", "GET");
+        let res = Helper("menus", "GET");
+        res.then((res) => {
+            this.setState({
+                posts: res,
+            });
+        });
+    this.notify("Posts Fetched Successfully");
+
+    }
+    fetchPostsAgain = () => {
+        let res = Helper("menus", "GET");
         res.then((res) => {
             this.setState({
                 posts: res,
@@ -93,72 +158,84 @@ class Menu extends Component {
 
         });
     }
+
     selectedRowToInput = (e, post) => {
-        document.getElementById("krochange1").value = post.menu_name;
-        document.getElementById("krochange2").value = post.description;
-        document.getElementById("krochange3").value = post.location_id;
-        document.getElementById("krochange4").value = post.item_id;
+        this.setState({
+            editMenuName: post.menu_name,
+            editDescription: post.description,
+            editLocationId: post.location_id,
+            editItemId: post.item_id,
+            editImage: post.image,
+            postId1: post.menu_id
+        });
+        console.log(post.menu_id);
+    }
 
-        var edit = document.getElementById("editbtn");
-        edit.addEventListener('click', () => {
-            console.log(post);
-            let body = JSON.stringify({
-                menu_name: this.state.menu_name,
-                description: this.state.description,
-                location_id: this.state.location_id,
-                item_id: this.state.item_id
+    updateRow = () => {
+      this.toggleLoader();
+        let editData = new FormData();
+        editData.append('menu_name', this.state.editMenuName);
+        editData.append('description', this.state.editDescription);
+        editData.append('location_id', this.state.editLocationId);
+        editData.append('item_id', this.state.editItemId);
+        editData.append('image', this.state.editImage);
+        editData.append('id', this.state.postId1);
+        editData.append('image_updated', this.state.image_updated);
 
-            });
-            let res = Helper(this.state.url + "menus/" + post.menu_id, 'PUT', body);
-            console.log(post.menu_id);
-            res.then((res) => {
-                this.fetchPosts();
-            });
-        })
+        let body = editData
+        let res = Header(this.state.url+"updateMenu/", 'POST', body);
+        res.then((res) => {
+            this.fetchPostsAgain();
+            this.toggleLoader();
+
+        });
+
+        this.notify1("Menu Editing Done");
     }
 
     render() {
 
-        let selection = {
+         let selection = {
             width: "300px",
             height: "40px",
             color: "black"
         }
         let style =
-            {
-                paddingTop: "10px",
-                // color:"Blue",
-                fontSize: "17px",
+        {
+            paddingTop: "10px",
+            // color:"Blue",
+            fontSize: "17px",
 
-            };
+        };
 
         let mystyle =
-            {
-                width: "300px",
-                borderColor: "#000",
-                borderSize: "1px",
-                border: "solid",
-                borderWidth: "thin"
-            };
+        {
+            width: "300px",
+            borderColor: "#000",
+            borderSize: "1px",
+            border: "solid",
+            borderWidth: "thin"
+        };
         let font =
-            {
-                fontSize: "30px",
-                fontFamily: "Bell MT"
-            }
+        {
+            fontSize: "30px",
+            fontFamily: "Bell MT"
+        }
         let font1 =
-            {
-                fontSize: "20px"
-            }
+        {
+            fontSize: "20px"
+        }
         let image1 =
-            {
-                marginTop: "10px",
-                height: "50px",
-                width: "50px",
-                marginLeft: "20px"
-            }
+        {
+            marginTop: "10px",
+            height: "50px",
+            width: "50px",
+            marginLeft: "20px"
+        }
         return (
             <div>
-
+             <ToastContainer autoClose={4000}/>
+              <Loader1 loader={this.state.loader}/>
                 <div className="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
                     <div className="nano">
                         <div className="nano-content">
@@ -251,7 +328,7 @@ class Menu extends Component {
                                     <div className="dropdown-content-body">
                                         <ul>
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -262,7 +339,7 @@ class Menu extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -273,7 +350,7 @@ class Menu extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -284,7 +361,7 @@ class Menu extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -294,7 +371,7 @@ class Menu extends Component {
                                                 </a>
                                             </li>
                                             <li className="text-center">
-                                                <a href="#" className="more-link">See All</a>
+                                                <a href="" className="more-link">See All</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -312,7 +389,7 @@ class Menu extends Component {
                                     <div className="dropdown-content-body">
                                         <ul>
                                             <li className="notification-unread">
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -323,7 +400,7 @@ class Menu extends Component {
                                             </li>
 
                                             <li className="notification-unread">
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -334,7 +411,7 @@ class Menu extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -345,7 +422,7 @@ class Menu extends Component {
                                             </li>
 
                                             <li>
-                                                <a href="#">
+                                                <a href="">
                                                     <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                                     <div className="notification-content">
                                                         <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -355,7 +432,7 @@ class Menu extends Component {
                                                 </a>
                                             </li>
                                             <li className="text-center">
-                                                <a href="#" className="more-link">See All</a>
+                                                <a href="" className="more-link">See All</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -453,7 +530,7 @@ class Menu extends Component {
 
                                                             <label for="Location" style={style}>Location</label><br />
                                                             <select name="location" style={selection} onChange={(e) => { this.dropdown(e) }} >
-                                                               <option value="Select from Below..">Select from Below..</option>
+                                                                <option value="Select from Below..">Select from Below..</option>
                                                                 {
                                                                     this.state.loc.map((post, i) => {
                                                                         return (
@@ -467,7 +544,7 @@ class Menu extends Component {
                                                         <div className=" col-md-6 col-xl-3 ">
 
                                                             <label for="Item" style={style}>Item</label>
-                                                            <input type="text" className="form-control" style={mystyle} placeholder="Enter Item.." onKeyUp={(e) => this.item_id(e)} required />
+                                                            <input type="number" className="form-control" style={mystyle} placeholder="Enter Item.." onKeyUp={(e) => this.item_id(e)} required />
                                                         </div>
                                                     </div>
                                                     <div className="row">
@@ -496,56 +573,56 @@ class Menu extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <div className="modal" id="editModal">
+                                            <div className="modal fade" id="editModal">
                                                 <div className="modal-dialog">
                                                     <div className="modal-content">
 
 
                                                         <div className="modal-header">
                                                             <h4 className="modal-title">Edit Menu</h4>
-
                                                         </div>
-
 
                                                         <div className="modal-body">
                                                             <div className="row">
                                                                 <div className=" col-md-6 col-xl-3 ">
                                                                     <label for="Menu Name" style={style}>Menu Name</label>
-                                                                    <input type="text" className="form-control" style={mystyle} id="krochange1" placeholder=" Enter Menu Name.." onKeyUp={(e) => this.menu_name(e)} required />
+                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.editMenuName} placeholder=" Enter Menu Name.." onChange={(e) => this.menu_name(e)} required />
                                                                 </div>
                                                                 <div className=" col-lg-6 col-md-6 col-sm-6  col-xs-6 " >
 
                                                                     <label for="Description" style={style}>Description</label>
-                                                                    <input type="text" className="form-control" style={mystyle} id="krochange2" placeholder="Enter Description.." onKeyUp={(e) => this.description(e)} required />
+                                                                    <input type="text" className="form-control" style={mystyle} value={this.state.editDescription} placeholder="Enter Description.." onChange={(e) => this.description(e)} required />
 
                                                                 </div>
                                                             </div>
                                                             <div className="row">
                                                                 <div className=" col-md-6 col-xl-3 ">
 
-                                                                    <label for="Location" style={style}>Location</label><br/>
-                                                                    <select name="location" style={selection} onChange={(e) => { this.dropdown(e) }} >
-                                                                    {
-                                                                        this.state.loc.map((post, i) => {
-                                                                            return (
-                                                                                <option value={post.id}>{post.location}</option>
-                                                                            );
-                                                                        })
-                                                                    }
-                                                                </select>
+                                                                    <label for="Location" style={style}>Location</label><br />
+                                                                    <select name="location" style={selection} onChange={(e) => { this.dropdown(e) }}value={this.state.editLocationId} >
+
+                                                                        {
+                                                                            this.state.loc.map((post, i) => {
+                                                                                return (
+                                                                                    <option value={post.id}>{post.location}</option>
+                                                                                );
+                                                                            })
+                                                                        }
+                                                                    </select>
                                                                 </div>
                                                                 <div className=" col-md-6 col-xl-3 ">
 
                                                                     <label for="Item" style={style}>Item</label>
-                                                                    <input type="text" className="form-control" style={mystyle} id="krochange4" placeholder="Enter Item.." onKeyUp={(e) => this.item_id(e)} required />
+                                                                    <input type="number" className="form-control" style={mystyle} value={this.state.editItemId} placeholder="Enter Item.." onChange={(e) => this.item_id(e)} required />
                                                                 </div>
                                                             </div>
 
                                                             <div className="row">
                                                                 <div className=" col-md-6 col-xl-3 ">
 
-                                                                    <label for="Image" style={style}>Image</label>
-                                                                    <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+                                                                    <label for="Image" style={style}>Image</label><br />
+                                                                    SELECT A FILE : <input type="file" accept="image/*" onChange={(e) => this.editFileSelect(e)} />
+                                                                    <img src={"http://192.168.43.14:3001/"+ this.state.editImage} id="img2" style={image1} />
                                                                 </div>
                                                             </div>
 
@@ -554,7 +631,7 @@ class Menu extends Component {
 
                                                         <div className="modal-footer">
 
-                                                            <button type="button" className="btn btn-info pull-left" id="editbtn" data-dismiss="modal">Submit</button>
+                                                            <button type="button" className="btn btn-info pull-left" id="editbtn" data-dismiss="modal"  onClick={this.updateRow}>Submit</button>
                                                             <button type="button" className="btn btn-danger pull-right" data-dismiss="modal">Close</button>
                                                         </div>
 
@@ -583,7 +660,7 @@ class Menu extends Component {
                                                                     <td >{post.description}</td>
                                                                     <td className="text-left" >{post.location_id}</td>
                                                                     <td className="text-center">{post.item_id}</td>
-                                                                    <td className="text-right"><img src={"http://192.168.1.16:3001/" + post.image} id="imgg" style={image1} /></td>
+                                                                    <td className="text-right"><img src={"http://192.168.43.14:3001/" + post.image} style={image1} /></td>
                                                                     <td className="text-center"><button className="btn btn-info" data-toggle="modal" data-target="#editModal"
                                                                         onClick={(e) => { this.selectedRowToInput(e, post) }}><i class="fa fa-edit"></i> Edit </button></td>
                                                                 </tr>
@@ -609,10 +686,15 @@ class Menu extends Component {
         );
 
     }
+    toggleLoader(){
+        this.setState({
+            loader: !this.state.loader
+        });
+    }
     componentDidMount() {
         this.fetchLocation();
         this.fetchPosts();
-
+        this.toggleLoader();
     }
 
 }

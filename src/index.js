@@ -16,26 +16,23 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import Dashboard from './Dashboard';
 
-ReactDOM.render(    
-    
+ReactDOM.render(
+
 <BrowserRouter>
 		<div className="style">
 			<Route exact path="/" component={Login}></Route>
-			<Route path="/Login" component={Login}></Route> 
-			<Route path="/Signup" component={Signup}></Route>                                   
-			<Route path="/Location" component={Location}></Route>                                   
-			<Route path="/Dashboard" component={Dashboard}></Route>            
+			<Route path="/Login" component={Login}></Route>
+			<Route path="/Signup" component={Signup}></Route>
+			<Route path="/Location" component={Location}></Route>
+			<Route path="/Dashboard" component={Dashboard}></Route>
 			<Route path="/Email" component={Email}></Route>
 			<Route path="/Profile" component={Profile}></Route>
-			<Route path="/Preparation" component={Preparation}></Route>			
+			<Route path="/Preparation" component={Preparation}></Route>
 			<Route path="/Items" component={Items}></Route>
 			<Route path="/Users" component={Users}></Route>
 			<Route path="/Salesgroup" component={Salesgroup}></Route>
 			<Route path="/Reports" component={Reports}></Route>
 			<Route path="/Menu" component={Menu}></Route>
-
-            
-            
 		</div>
 	</BrowserRouter>,
 document.getElementById('root'));

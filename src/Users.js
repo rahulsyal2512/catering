@@ -1,17 +1,41 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Helper from './Helper';
+import Loader1 from './Loader1';
 import cookie from 'react-cookies';
 import 'whatwg-fetch';
-
-
+import {
+    ToastContainer,
+    toast
+} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 class Users extends Component {
+    notify = (msg) => {
+        // toast(msg);
 
+          toast.info(msg, {
+            position: toast.POSITION.BOTTOM_CENTER
+          });
+        }
+        notify1 = (msg) => {
+
+              toast.success(msg, {
+                position: toast.POSITION.TOP_RIGHT
+              });
+            }
+        notify2 = (msg) => {
+
+                toast(msg, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'foo-bar'
+                  });
+              }
     constructor(props) {
         super(props);
         this.state = {
-            url: "http://192.168.1.16:3001/v1/",
-            posts: []
+            // url: "http://192.168.1.16:3001/v1/",
+            posts: [],
+            loader: true
         };
         if(cookie.load('access_token') === undefined)
 		 {
@@ -22,67 +46,65 @@ class Users extends Component {
     {
         let i  = this.state.posts.findIndex((p)=>
         {
-            return post.id ==p.id
+            return post.id === p.id
         });
         this.state.posts[i].is_active = !this.state.posts[i].is_active;
+        if(post.is_active=== true)
+        {
+            this.notify1(post.first_name +" " + post.last_name + " is now Active");
+
+        }
+        else{
+         this.notify2(post.first_name +" "+ post.last_name +" is now Inactive");
+        }
+
         this.forceUpdate();
     }
     checkboxChange=(e,post)=>
     {
+        this.toggleLoader();
         let body=JSON.stringify({
             id : post.id,
             is_active: !post.is_active
         });
-        let res=Helper(this.state.url+'users' ,  'POST',body);
+        let res=Helper('users' ,  'POST',body);
         res.then((res)=>
         {
+        this.toggleLoader();
+
             this.updatePostView(post);
         });
     }
-    selectedRowToInput=(e,post)=>
-        {
-                document.getElementById("krochange").value=post.name;
-                var edit=document.getElementById("editbtn");
-                edit.addEventListener('click',()=>{
-                    console.log(post);
-                    let body = JSON.stringify({ 
-                        name: this.state.name
-                        
-                    });
-                    let res = Helper(this.state.url+"users/" + post.id, 'PUT', body);
-                    res.then((res)=>{
-                        this.fetchPosts();
-                    });        
-                })
-        }
-        updatePostView = (post) => {
-            let i = this.state.posts.findIndex((p) => {
-                return post.id == p.id
-            });
-            this.state.posts[i].is_active = !this.state.posts[i].is_active;
-            this.forceUpdate();
-        }
-        checkboxChange = (e, post) => {
-            // console.log("dsdds")
-            let body = JSON.stringify({
-                user_id: post.id,
-                is_active: !post.is_active
-            });
-            let res = Helper(this.state.url + 'changeUserStatus', 'POST', body);
-            res.then((res) => {
-                this.updatePostView(post);
-            });
-        }
+
+        // updatePostView = (post) => {
+        //     let i = this.state.posts.findIndex((p) => {
+        //         return post.id === p.id
+        //     });
+        //     this.state.posts[i].is_active = !this.state.posts[i].is_active;
+        //     this.forceUpdate();
+        // }
+        // checkboxChange = (e, post) => {
+        //     // console.log("dsdds")
+        //     let body = JSON.stringify({
+        //         user_id: post.id,
+        //         is_active: !post.is_active
+        //     });
+        //     let res = Helper( 'changeUserStatus', 'POST', body);
+        //     res.then((res) => {
+        //         this.updatePostView(post);
+        //     });
+        // }
 
     fetchPosts = () => {
 
-        let res = Helper(this.state.url+"users", "GET");
+        let res = Helper("users", "GET");
         res.then((res) => {
             this.setState({
                 posts: res,
             });
 
         });
+        this.notify(" Posts Fetched Successfully");
 
     }
 
@@ -91,6 +113,9 @@ class Users extends Component {
 
         return (
             <div>
+             <ToastContainer autoClose={4000}/>
+             <Loader1 loader={this.state.loader}/>
+
 <div className="sidebar sidebar-hide-to-small sidebar-shrink sidebar-gestures">
         <div className="nano">
             <div className="nano-content">
@@ -100,7 +125,7 @@ class Users extends Component {
                         <Link to="./Dashboard">
                             <i className="ti-home"></i> Dashboard </Link>
                     </li>
-                   
+
 
                     <li className="label">My Account</li>
                     <li>
@@ -111,14 +136,14 @@ class Users extends Component {
                         <Link to="./Profile">
                             <i className="ti-user"></i> Profile</Link>
                     </li>
-                    
+
 
                     <li className="label">Others</li>
-                    <li>  
+                    <li>
                         <Link to="./Items">
                             <i className="ti-view-list-alt"></i> Items
                         </Link>
-                        
+
                     </li>
                     <li>
                         <Link to="./Menu">
@@ -134,19 +159,19 @@ class Users extends Component {
                         <Link to="./Preparation">
                             <i className="ti-pencil-alt"></i> Preparation</Link>
                     </li>
-                  
+
                     <li>
                         <Link to="./Location">
                             <i className="ti-location-pin"></i> Location</Link>
                     </li>
-                    
-                    
+
+
 
                     <li>
                         <Link to="./Salesgroup">
                             <i className="ti-files"></i> Sales Group</Link>
                     </li>
-                
+
                     <li className="label">Details</li>
                     <li>
                         <Link to="./Reports">
@@ -415,8 +440,15 @@ class Users extends Component {
         );
 
     }
+
+    toggleLoader(){
+        this.setState({
+            loader: !this.state.loader
+        });
+    }
     componentDidMount(){
         this.fetchPosts();
+        this.toggleLoader();
     }
 }
 

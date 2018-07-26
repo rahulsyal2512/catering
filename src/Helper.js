@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-const BaseUrl = "http://192.168.1.16:3001/v1/";
+const BaseUrl = "http://192.168.43.14:3001/v1/";
 
 const Helper = (url, method, body) => {
   return(

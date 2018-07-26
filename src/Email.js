@@ -109,7 +109,7 @@ class Email extends Component {
                         <div className="dropdown-content-body">
                             <ul>
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -120,7 +120,7 @@ class Email extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -131,7 +131,7 @@ class Email extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -142,7 +142,7 @@ class Email extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -152,7 +152,7 @@ class Email extends Component {
                                     </a>
                                 </li>
                                 <li className="text-center">
-                                    <a href="#" className="more-link">See All</a>
+                                    <a href="" className="more-link">See All</a>
                                 </li>
                             </ul>
                         </div>
@@ -170,7 +170,7 @@ class Email extends Component {
                         <div className="dropdown-content-body">
                             <ul>
                                 <li className="notification-unread">
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/1.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -181,7 +181,7 @@ class Email extends Component {
                                 </li>
 
                                 <li className="notification-unread">
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -192,7 +192,7 @@ class Email extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/3.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -203,7 +203,7 @@ class Email extends Component {
                                 </li>
 
                                 <li>
-                                    <a href="#">
+                                    <a href="">
                                         <img className="pull-left m-r-10 avatar-img" src="assets/images/avatar/2.jpg" alt="" />
                                         <div className="notification-content">
                                             <small className="notification-timestamp pull-right">02:34 PM</small>
@@ -213,7 +213,7 @@ class Email extends Component {
                                     </a>
                                 </li>
                                 <li className="text-center">
-                                    <a href="#" className="more-link">See All</a>
+                                    <a href="" className="more-link">See All</a>
                                 </li>
                             </ul>
                         </div>
@@ -271,8 +271,8 @@ class Email extends Component {
                         <div className="page-header">
                             <div className="page-title">
                                 <ol className="breadcrumb text-right">
-                                    <li><a href="#">My Account</a></li>
-                                    <li><a href="#">Email</a></li>
+                                    <li><a href="">My Account</a></li>
+                                    <li><a href="">Email</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -287,10 +287,10 @@ class Email extends Component {
                                     <div className="card-header-right-icon">
                                         <ul>
                                                 <ul className="card-option-dropdown dropdown-menu">
-                                                    <li><a href="#"><i className="ti-loop"></i> Update data</a></li>
-                                                    <li><a href="#"><i className="ti-menu-alt"></i> Detail log</a></li>
-                                                    <li><a href="#"><i className="ti-pulse"></i> Statistics</a></li>
-                                                    <li><a href="#"><i className="ti-power-off"></i> Clear ist</a></li>
+                                                    <li><a href=""><i className="ti-loop"></i> Update data</a></li>
+                                                    <li><a href=""><i className="ti-menu-alt"></i> Detail log</a></li>
+                                                    <li><a href=""><i className="ti-pulse"></i> Statistics</a></li>
+                                                    <li><a href=""><i className="ti-power-off"></i> Clear ist</a></li>
                                                 </ul>
                                             
                                         </ul>
@@ -304,8 +304,8 @@ class Email extends Component {
                                                     <img src="assets/images/user.jpg" alt=""/>
                                                 </a>
                                                 <div className="user-name">
-                                                    <h5><a href="#">Saiful Islam</a></h5>
-                                                    <span><a href="#">htmlcooker@gmail.com</a></span>
+                                                    <h5><a href="">Saiful Islam</a></h5>
+                                                    <span><a href="">htmlcooker@gmail.com</a></span>
                                                 </div>
                                             </div>
                                             <div className="inbox-body text-center">
@@ -362,65 +362,65 @@ class Email extends Component {
                                             </div>
                                             <ul className="inbox-nav inbox-divider">
                                                 <li className="active">
-                                                    <a href="#"><i className="fa fa-inbox"></i> Inbox <span className="badge badge-success pull-right m-t-12">2</span></a>
+                                                    <a href=""><i className="fa fa-inbox"></i> Inbox <span className="badge badge-success pull-right m-t-12">2</span></a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"><i className="fa fa-envelope-o"></i> Sent Mail</a>
+                                                    <a href=""><i className="fa fa-envelope-o"></i> Sent Mail</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"><i className="fa fa-bookmark-o"></i> Important</a>
+                                                    <a href=""><i className="fa fa-bookmark-o"></i> Important</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"><i className=" fa fa-external-link"></i> Drafts <span className="badge badge-info pull-right m-t-12">30</span></a>
+                                                    <a href=""><i className=" fa fa-external-link"></i> Drafts <span className="badge badge-info pull-right m-t-12">30</span></a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"><i className=" fa fa-trash-o"></i> Trash</a>
+                                                    <a href=""><i className=" fa fa-trash-o"></i> Trash</a>
                                                 </li>
                                             </ul>
                                             <ul className="nav nav-pills nav-stacked labels-info inbox-divider">
                                                 <li>
                                                     <h4>Labels</h4> </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-sign-blank text-danger"></i> Work </a>
+                                                    <a href=""> <i className=" fa fa-sign-blank text-danger"></i> Work </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-sign-blank text-success"></i> Design </a>
+                                                    <a href=""> <i className=" fa fa-sign-blank text-success"></i> Design </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-sign-blank text-info "></i> Family </a>
+                                                    <a href=""> <i className=" fa fa-sign-blank text-info "></i> Family </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-sign-blank text-warning "></i> Friends </a>
+                                                    <a href=""> <i className=" fa fa-sign-blank text-warning "></i> Friends </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-sign-blank text-primary "></i> Office </a>
+                                                    <a href=""> <i className=" fa fa-sign-blank text-primary "></i> Office </a>
                                                 </li>
                                             </ul>
                                             <ul className="nav nav-pills nav-stacked labels-info ">
                                                 <li>
                                                     <h4>Buddy online</h4> </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-circle text-success"></i>Saiful Islam
+                                                    <a href=""> <i className=" fa fa-circle text-success"></i>Saiful Islam
                                                         <p>I do not think</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-circle text-danger"></i>Dark Coders
+                                                    <a href=""> <i className=" fa fa-circle text-danger"></i>Dark Coders
                                                         <p>Busy with coding</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-circle text-muted "></i>Mentaalist
+                                                    <a href=""> <i className=" fa fa-circle text-muted "></i>Mentaalist
                                                         <p>I out of control</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-circle text-muted "></i>H3s4m
+                                                    <a href=""> <i className=" fa fa-circle text-muted "></i>H3s4m
                                                         <p>I am not here</p>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"> <i className=" fa fa-circle text-muted "></i>Dead man
+                                                    <a href=""> <i className=" fa fa-circle text-muted "></i>Dead man
                                                         <p>I do not think</p>
                                                     </a>
                                                 </li>
@@ -448,7 +448,7 @@ class Email extends Component {
                                         <aside className="lg-side">
                                             <div className="inbox-head">
                                                 <h3>Inbox</h3>
-                                                <form action="#" className="pull-right position">
+                                                <form action="" className="pull-right position">
                                                     <div className="input-append">
                                                         <input type="text" className="sr-input" placeholder="Search Mail"/>
                                                         <button className="btn sr-btn" type="button"><i className="fa fa-search"></i></button>
@@ -459,45 +459,45 @@ class Email extends Component {
 												<div className="chk-all">
 													<input type="checkbox" className="mail-checkbox mail-group-checkbox" id="checkAll"/>
 													<div className="btn-group">
-														<a data-toggle="dropdown" href="#" className="btn mini all m-l-10" aria-expanded="false">All<i className="fa fa-angle-down "></i></a>
+														<a data-toggle="dropdown" href="" className="btn mini all m-l-10" aria-expanded="false">All<i className="fa fa-angle-down "></i></a>
 														<ul className="card-option-dropdown dropdown-menu">
-															<li><a href="#"> None</a></li>
-															<li><a href="#"> Read</a></li>
-															<li><a href="#"> Unread</a></li>
+															<li><a href=""> None</a></li>
+															<li><a href=""> Read</a></li>
+															<li><a href=""> Unread</a></li>
 														</ul>
 													</div>
 												</div>
 
 												<div className="btn-group">
-													<a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href="#" className="btn mini tooltips">
+													<a data-original-title="Refresh" data-placement="top" data-toggle="dropdown" href=""  className="btn mini tooltips">
 														<i className=" fa fa-refresh"></i>
 													</a>
 												</div>
 												<div className="btn-group hidden-phone">
-													<a data-toggle="dropdown" href="#" className="btn mini blue" aria-expanded="false"> More<i className="fa fa-angle-down "></i></a>
+													<a data-toggle="dropdown" href="" className="btn mini blue" aria-expanded="false"> More<i className="fa fa-angle-down "></i></a>
 													
 													<ul className="card-option-dropdown dropdown-menu">
-														<li><a href="#"><i className="ti-pencil"></i> Mark as Read</a></li>
-														<li><a href="#"><i className="ti-menu-alt"></i>Spam</a></li>
-														<li><a href="#"><i className="ti-trash"></i>Delete</a></li>
+														<li><a href=""><i className="ti-pencil"></i> Mark as Read</a></li>
+														<li><a href=""><i className="ti-menu-alt"></i>Spam</a></li>
+														<li><a href=""><i className="ti-trash"></i>Delete</a></li>
 													</ul>
 												</div>
 												<div className="btn-group">
-													<a data-toggle="dropdown" href="#" className="btn mini blue">Move to<i className="fa fa-angle-down "></i></a>
+													<a data-toggle="dropdown" href="" className="btn mini blue">Move to<i className="fa fa-angle-down "></i></a>
 													<ul className="card-option-dropdown dropdown-menu">
-														<li><a href="#">Draft</a></li>
-														<li><a href="#">Spam</a></li>
-														<li><a href="#"> Delete</a></li>
+														<li><a href="">Draft</a></li>
+														<li><a href="">Spam</a></li>
+														<li><a href=""> Delete</a></li>
 													</ul>
 												</div>
 
 												<ul className="unstyled inbox-pagination">
 													<li><span>1-50 of 234</span></li>
 													<li>
-														<a className="np-btn" href="#"><i className="fa fa-angle-left  pagination-left"></i></a>
+														<a className="np-btn" href=""><i className="fa fa-angle-left  pagination-left"></i></a>
 													</li>
 													<li>
-														<a className="np-btn" href="#"><i className="fa fa-angle-right pagination-right"></i></a>
+														<a className="np-btn" href=""><i className="fa fa-angle-right pagination-right"></i></a>
 													</li>
 												</ul>
 											</div>
